@@ -1,0 +1,59 @@
+-- Query 1
+-- View the routes of all drivers on a specific day.
+Select DRIVER.Driver_Name
+From DRIVER, ROUTE
+Where DRIVER.Driver_Name = ROUTE.D_Name AND
+	ROUTE.Date = "2019/8/01";
+
+-- Query 2
+-- Show all of the students that showed up to the event 
+Select Student_Name
+From STUDENT, BELONGS_TO, ROUTE
+Where STUDENT.Student_Name = BELONGS_TO.Stu_Name AND
+	STUDENT.Age = BELONGS_TO.Stu_Age AND
+	ROUTE.Date = BELONGS_TO.Route_Date AND
+    ROUTE.Date = "2019/4/25";
+    
+-- Query 3
+-- List the names of Students and their age who are above 
+-- the age of 18 in alphabetical order.
+SELECT Student_Name, Age
+FROM STUDENT
+WHERE Age >= 18
+GROUP BY Student_Name;
+
+-- Query 4
+-- List the names of drivers and seat amount who have more than 
+-- 3 spots in their car 
+SELECT Driver_Name, COUNT(Max_Capacity)
+FROM DRIVER
+WHERE Max_Capacity >= 3;
+
+-- Query 5
+-- Show all students who came to more than one event
+SELECT Student_Name
+FROM STUDENT AS S, BELONGS_TO AS B, ROUTE AS R
+WHERE S.Student_Name = B.Stu_Name AND S.Age = B.Stu_Age AND B.Route_date = R.Date
+GROUP BY Student_Name
+HAVING COUNT(Student_Name) >= 2;
+
+-- Query 6
+-- Show all unassigned students
+SELECT Student_Name
+FROM STUDENT 
+WHERE Student_Name NOT IN (
+SELECT Student_Name
+FROM STUDENT AS S, BELONGS_TO AS B, ROUTE AS R
+Where S.Student_Name = B.Stu_Name AND S.Age = B.Stu_Age AND B.Route_date = R.Date
+	AND R.Date = "2019/5/17");
+    
+-- Query 7
+-- List the names of all foreign students (Not from America)
+SELECT Student_Name, Country_of_Origin
+FROM STUDENT 
+WHERE Student_Name NOT IN (
+	SELECT Country_of_Origin
+    FROM STUDENT
+    WHERE Country_of_Origin != "United States");
+    
+

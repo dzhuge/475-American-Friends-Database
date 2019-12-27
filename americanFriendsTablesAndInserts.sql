@@ -21,7 +21,6 @@ USE `American_Friends` ;
 -- Table `American_Friends`.`Address`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `American_Friends`.`ADDRESS` ;
-DROP TABLE IF EXISTS `American_Friends`.`Address` ;
 
 CREATE TABLE IF NOT EXISTS `American_Friends`.`ADDRESS` (
   `City` VARCHAR(40) NOT NULL,
@@ -39,7 +38,6 @@ ENGINE = InnoDB;
 -- Table `American_Friends`.`Driver`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `American_Friends`.`DRIVER` ;
-DROP TABLE IF EXISTS `American_Friends`.`Driver` ;
 
 CREATE TABLE IF NOT EXISTS `American_Friends`.`DRIVER` (
   `License#` VARCHAR(10) CHARACTER SET 'ascii' NULL COMMENT 'License plate number of driver',
@@ -54,12 +52,12 @@ CREATE TABLE IF NOT EXISTS `American_Friends`.`DRIVER` (
   INDEX `D_Name` (`Driver_Name` ASC) VISIBLE,
   CONSTRAINT `E_Street`
     FOREIGN KEY (`Event_Street`)
-    REFERENCES `American_Friends`.`Address` (`Street`)
+    REFERENCES `American_Friends`.`ADDRESS` (`Street`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `E_City`
     FOREIGN KEY (`Event_City`)
-    REFERENCES `American_Friends`.`Address` (`City`)
+    REFERENCES `American_Friends`.`ADDRESS` (`City`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -68,7 +66,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `American_Friends`.`Student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `American_Friends`.`Student` ;
 DROP TABLE IF EXISTS `American_Friends`.`STUDENT` ;
 
 CREATE TABLE IF NOT EXISTS `American_Friends`.`STUDENT` (
@@ -85,12 +82,12 @@ CREATE TABLE IF NOT EXISTS `American_Friends`.`STUDENT` (
   INDEX `Student_Street_idx` (`Street_Lives_On` ASC) INVISIBLE,
   CONSTRAINT `Student_Street`
     FOREIGN KEY (`Street_Lives_On`)
-    REFERENCES `American_Friends`.`Address` (`Street`)
+    REFERENCES `American_Friends`.`ADDRESS` (`Street`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Student_City`
     FOREIGN KEY (`City_Lives_In`)
-    REFERENCES `American_Friends`.`Address` (`City`)
+    REFERENCES `American_Friends`.`ADDRESS` (`City`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -99,7 +96,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `American_Friends`.`Route`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `American_Friends`.`Route` ;
 DROP TABLE IF EXISTS `American_Friends`.`ROUTE` ;
 
 CREATE TABLE IF NOT EXISTS `American_Friends`.`ROUTE` (
@@ -117,27 +113,27 @@ CREATE TABLE IF NOT EXISTS `American_Friends`.`ROUTE` (
   INDEX `Event_Street_Location_idx` (`Event_Location_Street` ASC) VISIBLE,
   CONSTRAINT `Driver_Name`
     FOREIGN KEY (`D_Name`)
-    REFERENCES `American_Friends`.`Driver` (`Driver_Name`)
+    REFERENCES `American_Friends`.`DRIVER` (`Driver_Name`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `Student_City_Location`
     FOREIGN KEY (`Student_Location_City`)
-    REFERENCES `American_Friends`.`Address` (`City`)
+    REFERENCES `American_Friends`.`ADDRESS` (`City`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Student_Street_Location`
     FOREIGN KEY (`Student_Location_Street`)
-    REFERENCES `American_Friends`.`Address` (`Street`)
+    REFERENCES `American_Friends`.`ADDRESS` (`Street`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Event_City_Location`
     FOREIGN KEY (`Event_Location_City`)
-    REFERENCES `American_Friends`.`Address` (`City`)
+    REFERENCES `American_Friends`.`ADDRESS` (`City`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Event_Street_Location`
     FOREIGN KEY (`Event_Location_Street`)
-    REFERENCES `American_Friends`.`Address` (`Street`)
+    REFERENCES `American_Friends`.`ADDRESS` (`Street`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -146,36 +142,35 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `American_Friends`.`Belongs_To`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `American_Friends`.`Belongs_To` ;
 DROP TABLE IF EXISTS `American_Friends`.`BELONGS_TO` ;
 
 CREATE TABLE IF NOT EXISTS `American_Friends`.`BELONGS_TO` (
-  `Student_Name` VARCHAR(25) CHARACTER SET 'utf32' NOT NULL,
+  `Stu_Name` VARCHAR(25) CHARACTER SET 'utf32' NOT NULL,
   `Stu_Age` TINYINT UNSIGNED NOT NULL,
   `Route_Date` DATE NOT NULL,
   `Dri_Name` VARCHAR(25) CHARACTER SET 'utf32' NOT NULL,
   INDEX `Route_Date_idx` (`Route_Date` ASC) VISIBLE,
-  INDEX `Student_Name_idx` (`Student_Name` ASC) INVISIBLE,
+  INDEX `Stu_Name_idx` (`Stu_Name` ASC) INVISIBLE,
   INDEX `Stu_Age_idx` (`Stu_Age` ASC) VISIBLE,
   INDEX `Driv_Name_idx` (`Dri_Name` ASC) VISIBLE,
   CONSTRAINT `Route_Date`
     FOREIGN KEY (`Route_Date`)
-    REFERENCES `American_Friends`.`Route` (`Date`)
+    REFERENCES `American_Friends`.`ROUTE` (`Date`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `Stu_Name`
-    FOREIGN KEY (`Student_Name`)
-    REFERENCES `American_Friends`.`Student` (`Student_Name`)
+    FOREIGN KEY (`Stu_Name`)
+    REFERENCES `American_Friends`.`STUDENT` (`Student_Name`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `Stu_Age`
     FOREIGN KEY (`Stu_Age`)
-    REFERENCES `American_Friends`.`Student` (`Age`)
+    REFERENCES `American_Friends`.`STUDENT` (`Age`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `Driv_Name`
     FOREIGN KEY (`Dri_Name`)
-    REFERENCES `American_Friends`.`Driver` (`Driver_Name`)
+    REFERENCES `American_Friends`.`DTIVER` (`Driver_Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -185,11 +180,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-																																				
-																																				
-																																								
-																																								
-INSERT	INTO	DRIVER	VALUES	(	NULL	,	"	Greta Eldrett	"	,	4	,	0	,	"	Bantawora	"	,	"	47551 Ludington Pass	"	)	;																	
+INSERT	INTO DRIVER	VALUES	(   NULL	,	"	Greta Eldrett	"	,	4	,	0	,	"	Bantawora	"	,	"	47551 Ludington Pass	"	)	;																	
 INSERT	INTO	DRIVER	VALUES	(	639786318	,	"	Davida Westphalen	"	,	3	,	0	,	"	Huachos	"	,	"	9 Sundown Place	"	)	;																	
 INSERT	INTO	DRIVER	VALUES	(	450984998	,	"	Isadora Croizier	"	,	4	,	0	,	"	Yuqunweng	"	,	"	4 Shoshone Center	"	)	;																	
 INSERT	INTO	DRIVER	VALUES	(	NULL	,	"	Cordula Hanhart	"	,	0	,	0	,	"	Maayong Tubig	"	,	"	0259 Reindahl Road	"	)	;																	
@@ -559,10 +550,77 @@ INSERT	INTO	ADDRESS	VALUES	(	"	Al Karmil	"	,	"	270 Melrose Alley	"	,	22205	)	;
 INSERT	INTO	ADDRESS	VALUES	(	"	Bettendorf	"	,	"	5 John Wall Pass	"	,	27660	)	;																									
 INSERT	INTO	ADDRESS	VALUES	(	"	Bebandem	"	,	"	387 Oak Drive	"	,	90819	)	;																									
 INSERT	INTO	ADDRESS	VALUES	(	"	San Rafael Petzal	"	,	"	45 Claremont Trail	"	,	67725	)	;																									
-INSERT	INTO	ADDRESS	VALUES	(	"	Shouyan	"	,	"	76603 Clove Lane	"	,	92376	)	;																									
+INSERT	INTO	ADDRESS	VALUES	(	"	Shouyan	"	,	"	76603 Clove Lane	"	,	92376	)	;								
+-- Query 1
+-- View the routes of all drivers on a specific day.
+Select DRIVER.Driver_Name
+From DRIVER, ROUTE
+Where DRIVER.Driver_Name = ROUTE.D_Name AND
+	ROUTE.Date = "2019/8/01";
+
+-- Query 2
+-- Show all of the students that showed up to the event 
+Select Student_Name
+From STUDENT, BELONGS_TO, ROUTE
+Where STUDENT.Student_Name = BELONGS_TO.Stu_Name AND
+	STUDENT.Age = BELONGS_TO.Stu_Age AND
+	ROUTE.Date = BELONGS_TO.Route_Date AND
+    ROUTE.Date = "2019/4/25";
+    
+-- Query 3
+-- List the names of Students and their age who are above 
+-- the age of 18 in alphabetical order.
+SELECT Student_Name, Age
+FROM STUDENT
+WHERE Age >= 18
+GROUP BY Student_Name;
+
+-- Query 4
+-- List the names of drivers and seat amount who have more than 
+-- 3 spots in their car 
+SELECT Driver_Name, COUNT(Max_Capacity)
+FROM DRIVER
+WHERE Max_Capacity >= 3;
+
+-- Query 5
+-- Show all students who came to more than one event
+SELECT Student_Name
+FROM STUDENT AS S, BELONGS_TO AS B, ROUTE AS R
+WHERE S.Student_Name = B.Stu_Name AND S.Age = B.Stu_Age AND B.Route_date = R.Date
+GROUP BY Student_Name
+HAVING COUNT(Student_Name) >= 2;
+
+-- Query 6
+-- Show all unassigned students
+SELECT Student_Name
+FROM STUDENT 
+WHERE Student_Name NOT IN (
+SELECT Student_Name
+FROM STUDENT AS S, BELONGS_TO AS B, ROUTE AS R
+Where S.Student_Name = B.Stu_Name AND S.Age = B.Stu_Age AND B.Route_date = R.Date
+	AND R.Date = "2019/5/17");
+    
+-- Query 7
+-- List the names of all foreign students (Not from America)
+SELECT Student_Name, Country_of_Origin
+FROM STUDENT 
+WHERE Student_Name NOT IN (
+	SELECT Country_of_Origin
+    FROM STUDENT
+    WHERE Country_of_Origin != "United States");
+    
+
+
+
+
+
+																																				
+																																				
 																																								
 																																								
-																																								
+																	
+																																							
+																														
 																																								
 																																								
 																																								
